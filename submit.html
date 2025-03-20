@@ -1,0 +1,35 @@
+<?php
+// Database connection
+$conn = new mysqli("your_host", "your_db_user", "your_db_password", "your_database");
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullName = $_POST['fullName'];
+    $dob = $_POST['dob'];
+    $placeOfBirth = $_POST['placeOfBirth'];
+    $gender = $_POST['gender'];
+    $nationality = $_POST['nationality'];
+    $idNumber = $_POST['idNumber'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $applicationType = $_POST['applicationType'];
+    $reason = $_POST['reason'];
+    $declaration = isset($_POST['declaration']) ? 1 : 0;
+    $applicantSignature = $_POST['applicantSignature'];
+    $signatureDate = $_POST['signatureDate'];
+
+    $sql = "INSERT INTO applications (full_name, dob, place_of_birth, gender, nationality, id_number, email, phone, application_type, reason, declaration, applicant_signature, signature_date)
+            VALUES ('$fullName', '$dob', '$placeOfBirth', '$gender', '$nationality', '$idNumber', '$email', '$phone', '$applicationType', '$reason', '$declaration', '$applicantSignature', '$signatureDate')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Application submitted successfully!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
